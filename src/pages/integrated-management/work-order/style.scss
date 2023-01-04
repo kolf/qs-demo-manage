@@ -1,0 +1,49 @@
+
+  .work_order-bar{
+    margin-left: 10px;
+    height: 44px ;
+    color: #AEBDD8;
+    display: flex;
+    position: relative;
+    .select{
+      height: 44px ;
+      display: flex;
+      align-items: center;
+      margin-right: 30px;
+      cursor: pointer;
+      opacity: 0.7;
+      &:hover{
+        opacity: 1;
+      }
+      .name{
+        font-weight: 300;
+        // color: #AEBDD8 ;
+        margin-left: 5px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .back{
+    margin-left: 56px;
+    margin-top: 10px;
+    color: #AEBDD8;
+    opacity: 0.7;
+    cursor: pointer;
+    display: inline-block;
+    &:hover {
+      opacity: 1
+    }
+  }
+
+  .main-container{
+    padding: 0 56px;
+    min-width: 800px;
+    height: 100%;
+    min-height: 800px;
+    .divider{
+      margin-top: 16px;
+      margin-bottom:20px;
+      border-color: rgba(174,189,216,0.2);
+    }
+  }

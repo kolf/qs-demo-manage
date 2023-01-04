@@ -52,7 +52,7 @@ export default function index({
       }}
       className="table"
     >
-      <Table sx={{ minWidth: 700 }} aria-label="caption table">
+      <Table sx={{ minWidth: 700, fontSize: '12px' }} aria-label="caption table">
         {listData.length > 0 && pagination && (
           <caption className="table-footer">
             <Box className="table-footer-box">
@@ -101,10 +101,10 @@ export default function index({
                     background: row.open ? '#2E3343' : '',
                   }}
                 >
-                  {columns.map((column: Column) => (
+                  {columns.map((column: Column, indexColumn) => (
                     <MyTableCell align={column.align || 'left'}>
                       <Box className="height-24">
-                        {column.slot ? <column.slot row={row}></column.slot> : row[column.key]}
+                        {column.slot ? <column.slot row={row} index={indexColumn}></column.slot> : row[column.key]}
                       </Box>
                     </MyTableCell>
                   ))}

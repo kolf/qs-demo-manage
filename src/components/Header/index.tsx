@@ -51,14 +51,16 @@ export default function Header() {
 
   // 退出登录事件
   const handleLogout = () => {
-    logout({ clientId: 0, uuid: getToken() }).then((res: any) => {
-      if (res.code === 0) {
-        removeUserInfo()
-        removeToken()
-        navigate('/login')
-        handleCloseUserMenu()
-      }
-    })
+    // logout({ clientId: 0, uuid: getToken() }).then((res: any) => {
+    //   if (res.code === 0) {
+    //     removeUserInfo()
+    //     removeToken()
+    //     navigate('/login')
+    //     handleCloseUserMenu()
+    //   }
+    // })
+    removeUserInfo()
+    navigate('/login')
   }
 
   return (
@@ -75,9 +77,9 @@ export default function Header() {
           height: barHeight,
         }}
       >
-        <img src={stardust} />
+        {/* <img src={stardust} /> */}
         <Typography sx={{ display: { xs: 'none', md: 'flex' } }} className="title">
-          综合管理系统
+          乔司街道智慧护民保障平台
         </Typography>
 
         <Box className="user">
@@ -87,7 +89,7 @@ export default function Header() {
           <ClickAwayListener onClickAway={handleCloseUserMenu}>
             <Tooltip title="" arrow>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src={getUserInfo() ? getUserInfo().avatarUrl : avatar} />
+                <Avatar src={avatar} />
               </IconButton>
             </Tooltip>
           </ClickAwayListener>
@@ -95,11 +97,9 @@ export default function Header() {
 
           {/* s 基本信息 */}
           <Box className="user-info">
-            <Typography className="name">{getUserInfo() ? getUserInfo().nick : ''}</Typography>
+            <Typography className="name">{getUserInfo() ? getUserInfo().userName : ''} </Typography>
             <Typography className="department">
-              {(getUserInfo() && getUserInfo().title ? getUserInfo().title : '无职务') +
-                '-' +
-                (getUserInfo() ? getUserInfo().depts[0].deptName : '')}
+              {getUserInfo() && getUserInfo().roleEntitie ? getUserInfo().roleEntitie.roleName : '无职务'}
             </Typography>
           </Box>
           {/* e 基本信息 */}

@@ -3,13 +3,12 @@ import { v4 as uuidv4 } from 'uuid'
 import QRCodeCanvas from 'qrcode.react'
 import { setToken, setUserInfo } from '@/utils/auth'
 import { useNavigate } from 'react-router-dom'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Grid, FormLabel } from '@mui/material'
+import Button from '@/components/Button'
+import Input from '@/components/Input'
 import { useTranslation } from 'react-i18next'
-import { getLoginUrl, getUserInfo } from '@/api/user'
-import Snackbar from '@/components/Snackbar'
+import { Login } from '@/api/user'
 import './style.scss'
-import starVision from '@/assets/image/png/starVision.png'
-import refreshQR from '@/assets/image/png/refreshQR.png'
 
 function Home() {
   const { t } = useTranslation()
@@ -17,106 +16,89 @@ function Home() {
   const [qrUrl, setQrUrl] = useState('')
   const [QRCodeState, setQRCodeState] = useState(false)
   const [openMessage, setOpenMessage] = useState(false)
+  const [params, setParams] = useState({
+    userName: '城建科刘安',
+    password: '123456',
+  })
 
-  // 获取用户信息接口
-  let getUserInfoData = (uuid: string, timer: string | number | NodeJS.Timer | undefined) => {
-    getUserInfo({ clientId: 0, uuid: uuid }).then((res: any) => {
-      if (res.code === 0) {
-        setUserInfo(res.data)
-        clearInterval(timer)
-        navigate('/')
-      } else if (res.code === 10004) {
-        setOpenMessage(true)
-        setQRCodeState(true)
-        clearInterval(timer)
-      }
+  /* 登录 */
+  const handleLogin = () => {
+    Login(params).then(({ data }) => {
+      // setToken()
+      setUserInfo(data)
+      navigate('/')
+      console.log(111)
     })
   }
 
-  // 获取登录地址接口
-  const getLoginUrlData = (uuid: string) => {
-    getLoginUrl({ clientId: 0, uuid: uuid }).then((res) => {
-      setQrUrl(res.data)
-      setToken(uuid)
-      let timer = setInterval(() => {
-        getUserInfoData(uuid, timer)
-      }, 500)
-
-      setTimeout(() => {
-        clearInterval(timer)
-        setQRCodeState(true)
-      }, 120000)
-    })
+  /* 设置账户密码 */
+  const handleUsernameChange = (e) => {
+    params.userName = e.target.value
+    setParams({ ...params })
   }
-
-  // 初始化
-  useEffect(() => {
-    initData()
-  }, [])
-
-  // 初始化事件
-  let initData = () => {
-    const uuid = uuidv4()
-    getLoginUrlData(uuid)
+  const handlePhoneNumberChange = (e) => {
+    params.password = e.target.value
+    setParams({ ...params })
   }
-
-  // 二维码失效重新获取点击事件
-  let handleQRClick = () => {
-    initData()
-    setQRCodeState(false)
-  }
-
-  // 提示框关闭事件
-  let handleClose = () => {
-    setOpenMessage(false)
-  }
-
   return (
-    <Box className="container">
-      <Snackbar
-        open={openMessage}
-        message="暂无权限，请联系人事开通！"
-        onClose={handleClose}
-        background="#232734"
-      ></Snackbar>
-      <Box className="login_box">
-        <img src={starVision} className="starvisonIcon" />
-        <Box className="qrCode_box">
-          <Box className="qrCode">
-            <Box
-              sx={{
-                width: '100%',
-                position: 'relative',
-              }}
-            >
-              <QRCodeCanvas
-                id="qrCode"
-                renderAs="svg"
-                value={qrUrl}
-                size={300}
-                fgColor="#1C1C25"
-                bgColor="#616C8C"
-                style={{ margin: 'auto', width: '120px', height: '120px' }}
-                level="M"
-              ></QRCodeCanvas>
-              {QRCodeState ? (
-                <Box onClick={handleQRClick} className="qrCode_shade">
-                  <Box className="box">
-                    {/* <SvgIcon svgName="refreshQR" svgClass="icon"></SvgIcon> */}
-                    <img src={refreshQR} className="icon" />
-                    <Typography className="font">请刷新二维码</Typography>
-                  </Box>
-                </Box>
-              ) : (
-                ''
-              )}
-            </Box>
-            <Typography className="hint" component="p">
-              {t('login.prompt')}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+    <Box className="login-container">
+      <h1>乔司街道智慧护民保障平台</h1>
+      <Grid
+        container
+        spacing={{ xs: 4 }}
+        sx={{
+          padding: '20px 0',
+          width: '400px !important',
+        }}
+      >
+        <Grid item xs={12} className="from-item">
+          <FormLabel component="span" className="label">
+            账户：
+          </FormLabel>
+          <Input
+            required
+            id="dataInput"
+            size="small"
+            placeholder="请输入账户"
+            // value={formParams.firstInput}
+            onChange={handleUsernameChange}
+            autoComplete="off"
+            sx={{
+              width: '80%',
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} className="from-item">
+          <FormLabel component="span" className="label">
+            密码：
+          </FormLabel>
+          <Input
+            required
+            id="phoneInput"
+            size="small"
+            placeholder="请输入密码"
+            // value={formParams.secondInput}
+            onChange={handlePhoneNumberChange}
+            autoComplete="off"
+            sx={{
+              width: '80%',
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} className="from-item">
+          <Button
+            variant="outlined"
+            onClick={handleLogin}
+            // startIcon={<SvgIcon svgName="reset_icon" svgClass="icon"></SvgIcon>}
+            sx={{
+              width: '90%',
+            }}
+          >
+            登录
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   )
 }

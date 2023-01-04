@@ -2,11 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import { api, geo } from './src/configa.js'
-import path from 'path'
+const path = require('path')
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react(),
   createSvgIconsPlugin({
     // 指定需要缓存的图标文件夹
@@ -15,12 +15,13 @@ export default defineConfig({
     symbolId: 'icon-[name]',
   }),],
   server: {
-    host: 'localhost',
-    port: 3001,
+    // host: 'localhost',
+    host: '0.0.0.0',
+    // port: 3001,
     proxy: {
       '/api': {
-        // target: "http://192.168.148.33:8054",
-        target: "http://192.168.152.10:8054",
+        target: "http://192.168.148.33:8094",
+        // target: "http://192.168.152.10:8054",
         // target: "http://192.168.48.241.:8054",
         changeOrigin: true,
         cookieDomainRewrite: "",

@@ -37,7 +37,7 @@ function Index({
           color: color || '',
         }}
       >
-        <img src={icon || error} />
+        <img src={icon} />
         <span> {message}</span>
       </Box>
     </Snackbar>

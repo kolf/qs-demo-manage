@@ -14,7 +14,7 @@ html,body,#root{
 	min-height: 100%;
 	font-family: PingFangSC-Light, PingFang SC;
 	/* background-color: #313747; */
-
+  font-size: 14px;
 }
 body{
 	background-image: radial-gradient(circle farthest-side at 40% -10%,#40485c,#232734);

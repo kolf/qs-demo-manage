@@ -28,34 +28,35 @@ export default function index() {
 
   // 初始化用户路由权限
   useEffect(() => {
-    if (getUserInfo()) {
-      const menuDTOS = getUserInfo().menuDTOS
+    // if (getUserInfo()) {
+    //   const menuDTOS = getUserInfo().menuDTOS
 
-      for (let i = 0; i < menuDTOS.length; i++) {
-        for (let j = 0; j < routers.length; j++) {
-          if (menuDTOS[i]['menuUrl'] === routers[j]['path']) {
-            routers[j].show = true
-            if (menuDTOS[i].childrenMenu) {
-              menuDTOS[i].childrenMenu.forEach((menuDTO: { [x: string]: string }) => {
-                if (routers[j].children) {
-                  routers[j].children.forEach((router) => {
-                    if (menuDTO['menuUrl'] === routers[j]['path'] + '/' + router['path']) {
-                      router.show = true
-                    }
-                  })
-                }
-              })
-            }
-          }
-        }
-      }
+    //   for (let i = 0; i < menuDTOS.length; i++) {
+    //     for (let j = 0; j < routers.length; j++) {
+    //       if (menuDTOS[i]['menuUrl'] === routers[j]['path']) {
+    //         routers[j].show = true
+    //         if (menuDTOS[i].childrenMenu) {
+    //           menuDTOS[i].childrenMenu.forEach((menuDTO: { [x: string]: string }) => {
+    //             if (routers[j].children) {
+    //               routers[j].children.forEach((router) => {
+    //                 if (menuDTO['menuUrl'] === routers[j]['path'] + '/' + router['path']) {
+    //                   router.show = true
+    //                 }
+    //               })
+    //             }
+    //           })
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
-      routers.forEach((router: Router) => {
-        router['open'] = false
-      })
+    menuRouter.forEach((router: Router) => {
+      router['open'] = false
+    })
 
-      setRouters([...routers])
-    }
+    console.log(menuRouter)
+    setRouters([...routers])
   }, [])
 
   // 侧边栏点击事件
@@ -86,7 +87,7 @@ export default function index() {
           <List className="menuList">
             {routers.map((prop, index) => {
               // 显示只有一级路由的路由
-              if (!prop.children && prop.show) {
+              if (!prop.children) {
                 return (
                   <NavLink to={prop.path} key={index}>
                     <ListItem button key={prop.path} disablePadding className="list-item">
@@ -102,32 +103,30 @@ export default function index() {
                   </NavLink>
                 )
                 // 显示有二级路由的路由
-              } else if (prop.children && prop.show) {
+              } else if (prop.children) {
                 let child = prop.children
                 const nav = (
                   <Box className="item">
                     {child.map((item, childrenIndex) => {
-                      if (item.show) {
-                        const key = childrenIndex + '_child'
-                        return (
-                          <NavLink to={prop.path + '/' + item.path} key={key}>
-                            <Collapse in={prop.open} timeout="auto" unmountOnExit>
-                              <List component="div" disablePadding className="btn">
-                                <ListItem button>
-                                  <ListItemIcon
-                                    sx={{
-                                      minWidth: 0,
-                                    }}
-                                  >
-                                    {item.icon}
-                                  </ListItemIcon>
-                                  <ListItemText disableTypography={true} primary={item.name} className="second-text" />
-                                </ListItem>
-                              </List>
-                            </Collapse>
-                          </NavLink>
-                        )
-                      }
+                      const key = childrenIndex + '_child'
+                      return (
+                        <NavLink to={prop.path + '/' + item.path} key={key}>
+                          <Collapse in={prop.open} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding className="btn">
+                              <ListItem button>
+                                <ListItemIcon
+                                  sx={{
+                                    minWidth: 0,
+                                  }}
+                                >
+                                  {item.icon}
+                                </ListItemIcon>
+                                <ListItemText disableTypography={true} primary={item.name} className="second-text" />
+                              </ListItem>
+                            </List>
+                          </Collapse>
+                        </NavLink>
+                      )
                     })}
                   </Box>
                 )

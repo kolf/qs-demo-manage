@@ -1,17 +1,16 @@
 import { lazy, Suspense, ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
-import { Assignment, Mood } from '@mui/icons-material'
-// import { DataManagement } from '@/components/SvgIcon'
 import SvgIcon from '@/components/SvgIcon'
 // 组件
 import Layout from '@/components/Layout'
-import Log from '@/pages/log'
+import Error from '@/pages/error/404'
 const Login = lazy(() => import('@/pages/login'))
-const DataStatistics = lazy(() => import('@/pages/data-management/data-statistics'))
-const DataList = lazy(() => import('@/pages/data-management/data-list'))
-const OriginalCountSet = lazy(() => import('@/pages/algorithm-management/original-countSet'))
-const LabelCountSet = lazy(() => import('@/pages/algorithm-management/label-countSet'))
-const Error = lazy(() => import('../pages/error/404'))
+const User = lazy(() => import('@/pages/system-management/user'))
+const Role = lazy(() => import('@/pages/system-management/role'))
+const Area = lazy(() => import('@/pages/system-management/area'))
+const Analyse = lazy(() => import('@/pages/integrated-management/analyse'))
+const EarlyWarning = lazy(() => import('@/pages/integrated-management/early-warning'))
+const WorkOrder = lazy(() => import('@/pages/integrated-management/work-order'))
 
 // 组件懒加载
 const lazyload = (children: ReactNode): ReactNode => {
@@ -41,55 +40,57 @@ export interface Router {
 // 菜单
 export const menuRouter: Router[] = [
   {
-    path: '/data',
+    path: '/integrated-management',
     element: <Layout />,
-    name: '数据管理',
+    name: '综合管理',
     icon: <SvgIcon svgName="data_management" />,
     children: [
       {
         index: true,
-        path: 'data-statistics',
-        element: lazyload(<DataStatistics />),
-        name: '数据统计',
+        path: 'work-order',
+        element: lazyload(<WorkOrder />),
+        name: '工单管理',
         icon: <SvgIcon svgName="data_statistic" />,
       },
-      {
-        path: 'data-list',
-        element: lazyload(<DataList />),
-        name: '数据列表',
-        icon: <SvgIcon svgName="data_list" />,
-      },
+      // {
+      //   path: 'early-warning',
+      //   element: lazyload(<EarlyWarning />),
+      //   name: '预警管理',
+      //   icon: <SvgIcon svgName="data_list" />,
+      // },
+      // {
+      //   path: 'analyse',
+      //   element: lazyload(<Analyse />),
+      //   name: '文档管理',
+      //   icon: <SvgIcon svgName="data_list" />,
+      // },
     ],
   },
   {
-    path: '/algorithm',
+    path: '/system-management',
     element: <Layout />,
-    name: '算法管理',
+    name: '系统管理',
     icon: <SvgIcon svgName="algorithm_icon" />,
     children: [
       {
-        path: 'original-countSet',
-        element: lazyload(<OriginalCountSet />),
-        name: '原始数据集',
+        path: 'user',
+        element: lazyload(<User />),
+        name: '用户管理',
         icon: <SvgIcon svgName="original_data" />,
       },
       {
-        path: 'label-countSet',
-        element: lazyload(<LabelCountSet />),
-        name: '标注数据集',
+        path: 'role',
+        element: lazyload(<Role />),
+        name: '角色管理',
         icon: <SvgIcon svgName="label_data" />,
       },
+      // {
+      //   path: 'area',
+      //   element: lazyload(<Area />),
+      //   name: '区域管理',
+      //   icon: <SvgIcon svgName="label_data" />,
+      // },
     ],
-  },
-  {
-    path: '/log',
-    element: (
-      <Layout>
-        <Log />
-      </Layout>
-    ),
-    name: '操作日志',
-    icon: <SvgIcon svgName="dashboard_icon" />,
   },
 ]
 
@@ -97,7 +98,7 @@ export const menuRouter: Router[] = [
 const router = [
   {
     path: '/',
-    element: <Navigate to="/data/data-statistics"></Navigate>,
+    element: <Navigate to="/integrated-management/work-order"></Navigate>,
   },
   {
     path: '/login',

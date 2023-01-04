@@ -4,9 +4,22 @@ const api = {
   getLoginUrl: '/star-auth/login/getDingTalkLoginUrl',
   getUserInfo: '/star-auth/login/getUserInfo',
   logout: '/star-auth/login/logout',
-  userList: '/star-auth/log/findOperatorList'
+  userList: '/industry/user/findUserByPage',
+  insertOrUpdate: '/industry/user/insertOrUpdate',
+  delUser: '/industry/user/deleteById',
+  // 新
+  login: '/industry/user/login'
 }
 
+
+/* 密码登录 */
+export function Login(data) {
+  return request({
+    url: api.login,
+    method: 'post',
+    data
+  })
+}
 
 /**
  *  获取钉钉登录地址
@@ -15,7 +28,6 @@ const api = {
 */
 export function getLoginUrl(data: { clientId: number; uuid: string }) {
   return request({
-    // baseURL: '/gateway',
     url: api.getLoginUrl,
     method: 'post',
     data
@@ -30,7 +42,6 @@ export function getLoginUrl(data: { clientId: number; uuid: string }) {
 
 export function getUserInfo(data: { clientId: number; uuid: string; }) {
   return request({
-    // baseURL: '/gateway',
     url: api.getUserInfo,
     method: 'post',
     data
@@ -45,7 +56,6 @@ export function getUserInfo(data: { clientId: number; uuid: string; }) {
 
 export function logout(data: any) {
   return request({
-    // baseURL: '/gateway',
     url: api.logout,
     method: 'post',
     data
@@ -53,16 +63,42 @@ export function logout(data: any) {
 }
 
 /** 
-*  获取操作人列表
+*  获取用户列表
 */
 
-export function userList() {
+export function getUserList(data) {
   return request({
-    // baseURL: '/gateway',
     url: api.userList,
-    method: 'get',
+    method: 'post',
+    data
   })
 }
+
+/** 
+*  用户新增或者修改
+*/
+
+export function insertOrUpdateUser(data) {
+  return request({
+    url: api.insertOrUpdate,
+    method: 'post',
+    data
+  })
+}
+
+/**
+*  删除用户登录
+*/
+
+export function delUser(data) {
+  return request({
+    url: api.delUser,
+    method: 'post',
+    data
+  })
+}
+
+
 
 
 

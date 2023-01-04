@@ -1,22 +1,14 @@
-
+.hidden-icon{
+  .MuiInputAdornment-root{
+    display: none;
+  }
+}
 
 .icon{
   width: 16px;
   height: 16px;
 }
 
-
-.hidden-icon{
-  .MuiInputAdornment-root{
-    display: none;
-  }
-}
-.end{
-  input{
-    text-align: right;
-  }
-}
-  
 .from-item{
   display: flex;
   align-items: center;
@@ -25,26 +17,12 @@
     display: flex;
     align-items: center;
     font-size: 14px;
+    overflow: hidden;
+    white-space:nowrap;
     .icon{
       width: 16px;
       height: 16px;
       margin-right: 10px;
-    }
-  }
-
-  .cloud{
-    min-width: 120px;
-    .value{
-      width: 39px;
-      height: 24px;
-      background: #232734;
-      border-radius: 2px;
-      opacity: 0.6;
-      margin-left: 10px;
-      text-align: center;
-      line-height: 24px;
-      font-size: 12px;
-      font-weight: 300,
     }
   }
 
@@ -60,8 +38,7 @@
     display: flex;
     justify-content: space-between;
     width: 90%;
-    max-width: 200px;
-    // min-width: 273px;
+    max-width: 270px;
     .upload{
       display: flex;
       align-items: center;

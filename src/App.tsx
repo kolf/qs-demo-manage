@@ -11,7 +11,8 @@ function App() {
   let [routers, setRouters] = useState(router)
   // 路由守卫
   useEffect(() => {
-    if (getToken() && getUserInfo()) {
+    // getToken() &&
+    if (getUserInfo()) {
       if (location.pathname === '/login') {
         navigate('/')
       }
@@ -22,34 +23,7 @@ function App() {
     }
   }, [location.pathname])
 
-  // useEffect(() => {
-  //   let filterMenuDTOS = getUserInfo().filterMenuDTOS
-  //   if (filterMenuDTOS) {
-  //     setRouters([...routers, ...filterMenuDTOS])
-  //   }
-  // }, [getUserInfo()])
-
   return <Box className="app">{useRoutes(router)}</Box>
 }
-
-// 判断
-// export function RequireAuth({ children, data }: { children: JSX.Element; data: { auth: boolean } }) {
-//   let singeRoute = ['/login']
-//   let location = useLocation()
-//   const componentType = !singeRoute.includes(location.pathname) ? <Layout>{children}</Layout> : children
-//   if (getToken()) {
-//     if (location.pathname === '/login') {
-//       return <Navigate to="/" state={{ from: location }} replace />
-//     } else {
-//       return componentType
-//     }
-//   } else {
-//     if (!data.auth) {
-//       return componentType
-//     } else {
-//       return <Navigate to="/login" state={{ from: location }} replace />
-//     }
-//   }
-// }
 
 export default App
